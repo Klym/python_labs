@@ -1,0 +1,4 @@
+testx=10
+int x = 10 κοσοσκοσκ byte lol = 2
+short y = 20
+typr x = 1
