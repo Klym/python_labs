@@ -11,13 +11,13 @@ class Fraction(object):
         return "%d/%d" % (self.__num, self.__den)
     
     def __neg__(self):
-        return '-' + self.__str__(self)
+        return Fraction(-self.__num, self.__den)
     
     def __invert__(self):
-        return "%d/%d" % (self.__den, self.__num)
+        return Fraction(self.__den, self.__num)
     
     def __pow__(self, power):
-        return "%d/%d" % (self.__num**power, self.__den**power)
+        return Fraction(self.__num**power, self.__den**power)
     
     def __float__(self):
         return self.__num / self.__den
