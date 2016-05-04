@@ -6,26 +6,29 @@ class Taggable(object):
     
     @abc.abstractmethod
     def tag(self):
-        """ абстрактный парсинг """
+        pass
 
 class Book(Taggable):
     
-    def __init__(self, name, author):
-        if name == '':
-            raise NameError('Empty Name!')
+    staticNum = 0
+    
+    def __init__(self, author, name):
+        if name == '' or author == '':
+            raise ValueError('Empty value! Error rised at book number ' + str(self.__class__.staticNum + 1) + '\n')
         self.__name = name
         self.__author = author
     
+    def __str__(self):
+        spaceIndex = self.__author.find(' ') + 1
+        return '[' + str(self.__num) + '] ' + self.__author[0] + '.' + self.__author[spaceIndex:] + ' \'' + self.__name + '\''
+    
     def tag(self):
         return [w for w in self.__name.split(' ') if w[0].isupper()]
-        
-    @property
-    def name(self):
-        return self.__name
     
-    @property
-    def author(self):
-        return self.__author
+    def generateCode(self):
+        self.__num = self.__class__.staticNum + 1
+        self.__class__.staticNum += 1
+        return self
         
 class Library(object):
     
@@ -33,6 +36,11 @@ class Library(object):
         self.__number = number
         self.__address = address
         self.__books = []
-        
+    
+    def __iter__(self):
+        for book in self.__books:
+            yield book
+    
     def __iadd__(self, book):
-        self.__books.append(book)
+        self.__books.append(book.generateCode())
+        return self
