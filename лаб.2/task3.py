@@ -18,6 +18,8 @@ class StringFinderForm(QMainWindow):
         self.bytesCountLabel = QLabel(u"0 байт")
         self.statusBar().addWidget(self.statusLabel, 3)
         self.statusBar().addWidget(self.bytesCountLabel, 1)
+        
+        self.showDialogLogCreate()
     
     def formatBytes(self, size):
         size = str(size)
@@ -61,6 +63,19 @@ class StringFinderForm(QMainWindow):
             self.listModel.appendRow(item)
         self.listModel.appendRow(QStandardItem(""))
         self.ui.listView.setModel(self.listModel)
+    
+    def showDialogLogCreate(self):
+        dialog = QDialog()
+        label = QLabel(dialog)
+        label.setText(u"Файл лога не найден. Файл будет создан автоматически")
+        label.move(5, 30)
+        okBtn = QPushButton(u"Ок", dialog)
+        okBtn.move(220, 70)
+        dialog.connect(okBtn, SIGNAL('clicked()'), dialog.close)
+        dialog.setFixedSize(QSize(300, 100))
+        dialog.setWindowTitle(u"Создан файл лога")
+        dialog.setWindowModality(Qt.ApplicationModal)
+        dialog.exec_()
     
 if __name__ == "__main__":
     app = QApplication(sys.argv)
