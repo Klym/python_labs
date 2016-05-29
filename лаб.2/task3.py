@@ -67,11 +67,11 @@ class StringFinderForm(QMainWindow):
         self.ui.listView.setModel(self.listModel)
 
     def writeFile(self):
-        filename = QFileDialog.getOpenFileName(self, 'Write to file', '')
+        filename = QFileDialog.getSaveFileName(self, 'Write to file', '')
         filename = unicode(filename)
-        with open(filename, "wb") as file:
-            pass
-        
+        with open(filename, "wt") as f:
+            lines = self.readFromList()
+            f.writelines(lines)
 
     def openLogFile(self):
         try:
