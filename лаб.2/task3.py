@@ -71,9 +71,15 @@ class StringFinderForm(QMainWindow):
     def writeFile(self):
         filename = QFileDialog.getSaveFileName(self, 'Write to file', '')
         filename = unicode(filename)
-        with open(filename, "wt") as f:
-            lines = self.readFromList()
-            f.writelines(lines)
+        try:
+            with open(filename, "wt") as f:
+                lines = self.readFromList()
+                f.writelines(lines)
+        except IOError:
+            return
+        self.statusLabel.setText(u"Сохранено: " + filename);
+        filesize = self.formatBytes(os.path.getsize(filename))
+        self.bytesCountLabel.setText(filesize + u" байт")
 
     def openLogFile(self):
         try:
@@ -119,6 +125,9 @@ class StringFinderForm(QMainWindow):
                 item = QStandardItem(line[:-1].decode("utf-8"))
                 self.listModel.appendRow(item)
             self.ui.listView.setModel(self.listModel)
+        filesize = self.formatBytes(os.path.getsize("script18.log"))
+        self.statusLabel.setText(u"Открыт лог");
+        self.bytesCountLabel.setText(filesize + u" байт")
                 
     def showDialogLogCreate(self):
         dialog = QDialog()
