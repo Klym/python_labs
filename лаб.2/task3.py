@@ -35,15 +35,17 @@ class StringFinderForm(QMainWindow):
     def openFile(self):
         filename = QFileDialog.getOpenFileName(self, 'Open file', '')
         filename = unicode(filename)
-        filesize = self.formatBytes(os.path.getsize(filename))
+        try:
+            filesize = self.formatBytes(os.path.getsize(filename))
+        except WindowsError:
+            return
         self.fillList(filename)
         self.statusLabel.setText(u"Обработан файл " + filename);
         self.bytesCountLabel.setText(filesize + u" байт")
     
     def parseFile(self, filename):
-        f = open(filename, "rb")
-        buf = f.readlines()
-        f.close()
+        with open(filename, "rb") as f:
+            buf = f.readlines()
         result = []
         i = 1
         for line in buf:
@@ -90,6 +92,7 @@ class StringFinderForm(QMainWindow):
         lines = self.readFromList()
         self.log.writelines(lines)
         self.statusLabel.setText(u"Данные сохранены в лог");
+        self.log.close()
     
     def readFromList(self):
         buff = []
@@ -101,8 +104,22 @@ class StringFinderForm(QMainWindow):
     
     def readLog(self):
         model = self.ui.listView.model()
-        model.removeRows(0, model.rowCount())
-    
+        try:
+            count = model.rowCount()
+            if count != 0:
+                result = self.showDialogLogOpen()
+                if result != 1:
+                    return
+                model.removeRows(0, count)
+        except AttributeError:
+            pass
+        with open("script18.log", "rb") as log:
+            lines = log.readlines()
+            for line in lines:
+                item = QStandardItem(line[:-1].decode("utf-8"))
+                self.listModel.appendRow(item)
+            self.ui.listView.setModel(self.listModel)
+                
     def showDialogLogCreate(self):
         dialog = QDialog()
         label = QLabel(dialog)
@@ -115,7 +132,24 @@ class StringFinderForm(QMainWindow):
         dialog.setWindowTitle(u"Создан файл лога")
         dialog.setWindowModality(Qt.ApplicationModal)
         dialog.exec_()
-    
+        
+    def showDialogLogOpen(self):
+        dialog = QDialog()
+        label = QLabel(dialog)
+        label.setText(u"Вы действительно хотите открыть лог?\nДанные последних поисков будут потеряны!")
+        label.move(35, 20)
+        okBtn = QPushButton(u"Ок", dialog)
+        okBtn.move(140, 70)
+        cancelBtn = QPushButton(u"Отмена", dialog)
+        cancelBtn.move(220, 70)
+        dialog.connect(okBtn, SIGNAL('clicked()'), dialog.accept)
+        dialog.connect(cancelBtn, SIGNAL('clicked()'), dialog.reject)
+        dialog.setFixedSize(QSize(300, 100))
+        dialog.setWindowTitle(u"Открыть лог?")
+        dialog.setWindowModality(Qt.ApplicationModal)
+        result = dialog.exec_()
+        return result
+        
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     form = StringFinderForm()
