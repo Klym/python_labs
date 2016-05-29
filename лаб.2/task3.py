@@ -30,6 +30,7 @@ class StringFinderForm(QMainWindow):
     
     def openFile(self):
         filename = QFileDialog.getOpenFileName(self, 'Open file', '')
+        filename = unicode(filename)
         filesize = self.formatBytes(os.path.getsize(filename))
         self.fillList(filename)
         self.statusLabel.setText(u"Обработан файл " + filename);

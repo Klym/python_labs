@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'GUIStringFinder.ui'
 #
-# Created: Thu May 26 01:43:49 2016
-#      by: PyQt4 UI code generator 4.11.3
+# Created: Thu May 26 12:18:49 2016
+#      by: PyQt4 UI code generator 4.9.6
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -26,15 +26,18 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(442, 274)
+        MainWindow.resize(443, 274)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
+        self.gridLayout = QtGui.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.listView = QtGui.QListView(self.centralwidget)
-        self.listView.setGeometry(QtCore.QRect(0, 0, 441, 231))
+        self.listView.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
         self.listView.setObjectName(_fromUtf8("listView"))
+        self.gridLayout.addWidget(self.listView, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 442, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 443, 20))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menu = QtGui.QMenu(self.menubar)
         self.menu.setObjectName(_fromUtf8("menu"))
