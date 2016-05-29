@@ -20,6 +20,9 @@ class StringFinderForm(QMainWindow):
         self.statusBar().addWidget(self.bytesCountLabel, 1)        
         self.openLogFile()
     
+    def __del__(self):
+        self.log.close()
+    
     def formatBytes(self, size):
         size = str(size)
         spaces = [i for i in range(len(size), 0, -3)]
@@ -72,7 +75,16 @@ class StringFinderForm(QMainWindow):
             self.createLogFile()
     
     def createLogFile(self):
-        self.log = open("script18.log", "w")
+        self.log = open("script18.log", "wt")
+    
+    def writeLog(self):
+        if self.log.closed:
+            self.log = open("script18.log", "a")
+        model = self.ui.listView.model()
+        for index in range(model.rowCount()):
+            item = model.item(index).text() + '\n'
+            self.log.write(item.encode("utf-8"))
+        self.statusLabel.setText(u"Данные сохранены в лог");
     
     def showDialogLogCreate(self):
         dialog = QDialog()
