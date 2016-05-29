@@ -70,7 +70,8 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.action, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.openFile)
         QtCore.QObject.connect(self.action_5, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.close)
         QtCore.QObject.connect(self.action_2, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.writeFile)            
-        QtCore.QObject.connect(self.action_3, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.writeLog)        
+        QtCore.QObject.connect(self.action_3, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.writeLog)
+        QtCore.QObject.connect(self.action_4, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.readLog)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

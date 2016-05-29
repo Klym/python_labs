@@ -99,6 +99,10 @@ class StringFinderForm(QMainWindow):
             buff.append(item.encode("utf-8"))
         return buff
     
+    def readLog(self):
+        model = self.ui.listView.model()
+        model.removeRows(0, model.rowCount())
+    
     def showDialogLogCreate(self):
         dialog = QDialog()
         label = QLabel(dialog)
