@@ -17,9 +17,8 @@ class StringFinderForm(QMainWindow):
         self.statusLabel = QLabel(u"Готово")
         self.bytesCountLabel = QLabel(u"0 байт")
         self.statusBar().addWidget(self.statusLabel, 3)
-        self.statusBar().addWidget(self.bytesCountLabel, 1)
-        
-        self.showDialogLogCreate()
+        self.statusBar().addWidget(self.bytesCountLabel, 1)        
+        self.openLogFile()
     
     def formatBytes(self, size):
         size = str(size)
@@ -63,6 +62,17 @@ class StringFinderForm(QMainWindow):
             self.listModel.appendRow(item)
         self.listModel.appendRow(QStandardItem(""))
         self.ui.listView.setModel(self.listModel)
+
+    def openLogFile(self):
+        try:
+            with open("script18.log", "rb") as log:    
+                self.log = log
+        except IOError:
+            self.showDialogLogCreate()
+            self.createLogFile()
+    
+    def createLogFile(self):
+        self.log = open("script18.log", "w")
     
     def showDialogLogCreate(self):
         dialog = QDialog()
