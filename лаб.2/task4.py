@@ -22,7 +22,7 @@ class StringFormatterForm(QWidget):
             self.ui.radioButton_2.setEnabled(False)
             
     def formatString(self):
-        formatter = StringFormatter(self.ui.lineEdit_2.text())
+        formatter = StringFormatter(unicode(self.ui.lineEdit_2.text()))
         if self.ui.checkBox.isChecked():
             formatter.delSmallWords(int(self.ui.spinBox.text()))
         if self.ui.checkBox_4.isChecked():
