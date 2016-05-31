@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import re
 
 class StringFormatter(object):
     """ Класс для форматирования строк """
@@ -20,7 +19,7 @@ class StringFormatter(object):
         self.__joinWords('', chars)
     
     def sortWordsBySize(self):
-        self.__words = sorted(self.__words, key = lambda w: len(w), reverse = False)
+        self.__words = sorted(self.__words, key = lambda w: len(w))
         self.__joinWords(' ', self.__words)
         
     def sortWordsLexicographically(self):
