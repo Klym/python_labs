@@ -7,7 +7,7 @@ class StringFormatter(object):
         self.__words = self.__s.split(' ')
         
     def delSmallWords(self, N):
-        self.__words = [w for w in self.__words if len(w) > N]
+        self.__words = [w for w in self.__words if len(w) >= N]
         self.__joinWords(' ', self.__words)
     
     def replaceDigits(self):
