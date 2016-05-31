@@ -22,7 +22,11 @@ class StringFormatter(object):
     def sortWordsBySize(self):
         self.__words = sorted(self.__words, key = lambda w: len(w), reverse = False)
         self.__joinWords(' ', self.__words)
-    
+        
+    def sortWordsLexicographically(self):
+        self.__words = sorted(self.__words, key = lambda w: w)
+        self.__joinWords(' ', self.__words)
+        
     def __joinWords(self, sep, words):
         self.__s  = sep
         self.__s = self.__s.join(words)
@@ -33,7 +37,7 @@ class StringFormatter(object):
 if __name__ == "__main__":
     sf = StringFormatter("your777 password is so small1234")
     sf.delSmallWords(4)
-    sf.sortWordsBySize()
+    sf.sortWordsLexicographically()
     sf.replaceDigits()
     sf.insertSpaces()
     
