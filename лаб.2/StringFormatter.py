@@ -13,7 +13,14 @@ class StringFormatter(object):
         self.__s = self.__s.join(self.__words)
     
     def replaceDigits(self):
-        self.__s = re.sub('\d', '*', self.__s)
+        chars = map(lambda ch: '*' if ch.isdigit() else ch, self.__s)
+        self.__s = ""
+        self.__s = self.__s.join(chars)
+    
+    def insertSpaces(self):
+        chars = map(lambda ch: ch + ' ', self.__s)
+        self.__s = ''
+        self.__s = self.__s.join(chars)
     
     def getString(self):
         return self.__s
@@ -22,4 +29,5 @@ if __name__ == "__main__":
     sf = StringFormatter("your777 password is so small1234")
     sf.delSmallWords(4)
     sf.replaceDigits()
+    sf.insertSpaces()
     print sf.getString()
