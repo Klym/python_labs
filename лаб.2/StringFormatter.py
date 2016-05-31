@@ -9,18 +9,23 @@ class StringFormatter(object):
         
     def delSmallWords(self, N):
         self.__words = [w for w in self.__words if len(w) > N]
-        self.__s = " "
-        self.__s = self.__s.join(self.__words)
+        self.__joinWords(' ', self.__words)
     
     def replaceDigits(self):
         chars = map(lambda ch: '*' if ch.isdigit() else ch, self.__s)
-        self.__s = ""
-        self.__s = self.__s.join(chars)
+        self.__joinWords('', chars)
     
     def insertSpaces(self):
         chars = map(lambda ch: ch + ' ', self.__s)
-        self.__s = ''
-        self.__s = self.__s.join(chars)
+        self.__joinWords('', chars)
+    
+    def sortWordsBySize(self):
+        self.__words = sorted(self.__words, key = lambda w: len(w), reverse = False)
+        self.__joinWords(' ', self.__words)
+    
+    def __joinWords(self, sep, words):
+        self.__s  = sep
+        self.__s = self.__s.join(words)
     
     def getString(self):
         return self.__s
@@ -28,6 +33,8 @@ class StringFormatter(object):
 if __name__ == "__main__":
     sf = StringFormatter("your777 password is so small1234")
     sf.delSmallWords(4)
+    sf.sortWordsBySize()
     sf.replaceDigits()
     sf.insertSpaces()
+    
     print sf.getString()
