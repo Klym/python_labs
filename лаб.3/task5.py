@@ -30,12 +30,13 @@ class DownloadThread(QThread):
                     self.getPercents(i * 4096)
                     f.write(chunk)
                     self.tick.emit(self.percentage)
-            self.finish_func()
+            self.finish_func(local_filename, self.getPercents(0))
     
     def getPercents(self, downloaded):
         r = requests.head(self.url, headers={'Accept-Encoding': 'identity'})
         filesize = int(r.headers['content-length'])
         self.percentage = downloaded * 100 / filesize
+        return filesize
 
 class DownloadForm(QWidget):
     
@@ -46,25 +47,25 @@ class DownloadForm(QWidget):
         self.ui.progressBar.setValue(0)
         self.ui.progressBar_2.setValue(0)
         self.ui.progressBar_3.setValue(0)
-        self.count = 0
+        self.files = []
         self.connect(self, SIGNAL('filesDownloaded'), self.showResults)
 
-    def downloaded(self):
-        self.count += 1
+    def downloaded(self, name, size):
+        name = name + '\n[' + str(round((float(size) / (1024 * 1024)), 1)) + 'mb]'
+        self.files.append((name, size))
         self.emitSignal()
         
     def emitSignal(self):
-        if self.count == 3:
+        if len(self.files) == 3:
             self.ui.pushButton.setEnabled(True)
             self.emit(SIGNAL('filesDownloaded'), "downloaded")
-            self.count = 0
     
     def showResults(self):
-        data = [33, 25, 20]
+        data = [self.files[0][1], self.files[1][1], self.files[2][1]]
         plt.figure(num=1, figsize=(6, 6))
         plt.axes(aspect=1)
         plt.title('File size', size=14)
-        plt.pie(data, labels=('Group 1', 'Group 2', 'Group 3'))
+        plt.pie(data, labels=(self.files[0][0], self.files[1][0], self.files[2][0]))
         plt.show()
     
     def startDownload(self):
