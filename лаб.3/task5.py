@@ -2,6 +2,8 @@
 
 import sys, requests
 
+import matplotlib.pyplot as plt
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from GUIDownload import Ui_Form
@@ -16,14 +18,7 @@ class DownloadThread(QThread):
         self.url = url
         self.percentage = 0
         self.finish_func = finish_func
-        
-    #def run(self):
-    #    while self.percentage <= 100:
-    #        time.sleep(0.04)
-    #        self.percentage += 1
-    #        self.tick.emit(self.percentage)
-    #    self.finish_func()
-        
+                
     def run(self):
         local_filename = self.url.split('/')[-1]        
         r = requests.get(self.url, stream = True)
@@ -51,33 +46,42 @@ class DownloadForm(QWidget):
         self.ui.progressBar.setValue(0)
         self.ui.progressBar_2.setValue(0)
         self.ui.progressBar_3.setValue(0)
+        self.count = 0
+        self.connect(self, SIGNAL('filesDownloaded'), self.showResults)
 
-    def enableButton1(self):
-        self.ui.pushButton.setEnabled(True)
-
-    def enableButton2(self):
-        self.ui.pushButton_2.setEnabled(True)
+    def downloaded(self):
+        self.count += 1
+        self.emitSignal()
         
-    def enableButton3(self):
-        self.ui.pushButton_3.setEnabled(True)
+    def emitSignal(self):
+        if self.count == 3:
+            self.ui.pushButton.setEnabled(True)
+            self.emit(SIGNAL('filesDownloaded'), "downloaded")
+            self.count = 0
     
-    def startDownload1(self):
-        self.dthread1 = DownloadThread('1', self.ui.lineEdit.text(), self.enableButton1)
+    def showResults(self):
+        data = [33, 25, 20]
+        plt.figure(num=1, figsize=(6, 6))
+        plt.axes(aspect=1)
+        plt.title('File size', size=14)
+        plt.pie(data, labels=('Group 1', 'Group 2', 'Group 3'))
+        plt.show()
+    
+    def startDownload(self):
+        self.dthread1 = DownloadThread('1', self.ui.lineEdit.text(), self.downloaded)
         self.dthread1.tick.connect(self.ui.progressBar.setValue)
         self.dthread1.start()
-        self.ui.pushButton.setDisabled(True)
-        
-    def startDownload2(self):
-        self.dthread2 = DownloadThread('2', self.ui.lineEdit_2.text(), self.enableButton2)
+
+        self.dthread2 = DownloadThread('2', self.ui.lineEdit_2.text(), self.downloaded)
         self.dthread2.tick.connect(self.ui.progressBar_2.setValue)
         self.dthread2.start()
-        self.ui.pushButton_2.setDisabled(True)
-    
-    def startDownload3(self):
-        self.dthread3 = DownloadThread('3', self.ui.lineEdit_3.text(), self.enableButton3)
+        
+        self.dthread3 = DownloadThread('3', self.ui.lineEdit_3.text(), self.downloaded)
         self.dthread3.tick.connect(self.ui.progressBar_3.setValue)
-        self.dthread3.start()
-        self.ui.pushButton_3.setDisabled(True)
+        self.dthread3.start()        
+        
+        self.ui.pushButton.setDisabled(True)
+        
     
 if __name__ == "__main__":
     app = QApplication(sys.argv)

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'GUIDownload.ui'
 #
-# Created: Wed Jun 01 17:56:14 2016
+# Created: Thu Jun 02 01:00:58 2016
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,9 +26,9 @@ except AttributeError:
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(524, 369)
-        Form.setMinimumSize(QtCore.QSize(524, 369))
-        Form.setMaximumSize(QtCore.QSize(524, 369))
+        Form.resize(524, 426)
+        Form.setMinimumSize(QtCore.QSize(524, 426))
+        Form.setMaximumSize(QtCore.QSize(524, 426))
         self.progressBar = QtGui.QProgressBar(Form)
         self.progressBar.setGeometry(QtCore.QRect(20, 70, 491, 31))
         self.progressBar.setProperty("value", 24)
@@ -42,23 +42,17 @@ class Ui_Form(object):
         self.progressBar_3.setProperty("value", 24)
         self.progressBar_3.setObjectName(_fromUtf8("progressBar_3"))
         self.lineEdit = QtGui.QLineEdit(Form)
-        self.lineEdit.setGeometry(QtCore.QRect(20, 40, 221, 20))
+        self.lineEdit.setGeometry(QtCore.QRect(20, 40, 451, 20))
         self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
         self.lineEdit_2 = QtGui.QLineEdit(Form)
-        self.lineEdit_2.setGeometry(QtCore.QRect(20, 160, 221, 20))
+        self.lineEdit_2.setGeometry(QtCore.QRect(20, 160, 451, 20))
         self.lineEdit_2.setObjectName(_fromUtf8("lineEdit_2"))
         self.lineEdit_3 = QtGui.QLineEdit(Form)
-        self.lineEdit_3.setGeometry(QtCore.QRect(20, 280, 221, 20))
+        self.lineEdit_3.setGeometry(QtCore.QRect(20, 280, 451, 20))
         self.lineEdit_3.setObjectName(_fromUtf8("lineEdit_3"))
         self.pushButton = QtGui.QPushButton(Form)
-        self.pushButton.setGeometry(QtCore.QRect(260, 40, 75, 23))
+        self.pushButton.setGeometry(QtCore.QRect(20, 370, 481, 41))
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
-        self.pushButton_2 = QtGui.QPushButton(Form)
-        self.pushButton_2.setGeometry(QtCore.QRect(260, 160, 75, 23))
-        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
-        self.pushButton_3 = QtGui.QPushButton(Form)
-        self.pushButton_3.setGeometry(QtCore.QRect(260, 280, 75, 23))
-        self.pushButton_3.setObjectName(_fromUtf8("pushButton_3"))
         self.label = QtGui.QLabel(Form)
         self.label.setGeometry(QtCore.QRect(20, 20, 46, 13))
         self.label.setObjectName(_fromUtf8("label"))
@@ -70,16 +64,12 @@ class Ui_Form(object):
         self.label_3.setObjectName(_fromUtf8("label_3"))
 
         self.retranslateUi(Form)
-        QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.startDownload1)
-        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.startDownload2)
-        QtCore.QObject.connect(self.pushButton_3, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.startDownload3)
+        QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.startDownload)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Загрузка файлов", None))
         self.pushButton.setText(_translate("Form", "Загрузить", None))
-        self.pushButton_2.setText(_translate("Form", "Загрузить", None))
-        self.pushButton_3.setText(_translate("Form", "Загрузить", None))
         self.label.setText(_translate("Form", "URL 1:", None))
         self.label_2.setText(_translate("Form", "URL 2:", None))
         self.label_3.setText(_translate("Form", "URL 3:", None))
