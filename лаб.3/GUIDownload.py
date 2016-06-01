@@ -70,6 +70,7 @@ class Ui_Form(object):
         self.label_3.setObjectName(_fromUtf8("label_3"))
 
         self.retranslateUi(Form)
+        QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), Form.startDownload1)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
