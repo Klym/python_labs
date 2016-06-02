@@ -64,7 +64,8 @@ class DownloadForm(QWidget):
             self.emit(SIGNAL('filesDownloaded'), "downloaded")
     
     def showResults(self):
-        data = [self.files[0][1], self.files[1][1], self.files[2][1]]        
+        data = [self.files[0][1], self.files[1][1], self.files[2][1]]
+        plt.subplots(figsize=(13,6))
         plt.subplot(121)
         plt.xlabel('Files')
         plt.ylabel('Downloaded time')
@@ -82,6 +83,9 @@ class DownloadForm(QWidget):
         plt.title('File size', size=14)
         plt.pie(data, labels=(self.files[0][0], self.files[1][0], self.files[2][0]))
         plt.show()
+        fig = plt.gcf()
+        fig.canvas.set_window_title('Download Statistics')
+        
         self.files = []
     
     def startDownload(self):
