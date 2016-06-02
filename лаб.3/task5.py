@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import sys, requests
+import sys, requests, time
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -24,13 +25,15 @@ class DownloadThread(QThread):
         r = requests.get(self.url, stream = True)
         with open(local_filename, 'wb') as f:
             i = 0
+            t1 = time.time()
             for chunk in r.iter_content(chunk_size = 4096):
                 if chunk:
                     i += 1
                     self.getPercents(i * 4096)
                     f.write(chunk)
                     self.tick.emit(self.percentage)
-            self.finish_func(local_filename, self.getPercents(0))
+            t2 = time.time()
+            self.finish_func(local_filename, self.getPercents(0), t2 - t1)
     
     def getPercents(self, downloaded):
         r = requests.head(self.url, headers={'Accept-Encoding': 'identity'})
@@ -50,9 +53,9 @@ class DownloadForm(QWidget):
         self.files = []
         self.connect(self, SIGNAL('filesDownloaded'), self.showResults)
 
-    def downloaded(self, name, size):
+    def downloaded(self, name, size, time):
         name = name + '\n[' + str(round((float(size) / (1024 * 1024)), 1)) + 'mb]'
-        self.files.append((name, size))
+        self.files.append((name, size, time))
         self.emitSignal()
         
     def emitSignal(self):
@@ -61,12 +64,25 @@ class DownloadForm(QWidget):
             self.emit(SIGNAL('filesDownloaded'), "downloaded")
     
     def showResults(self):
-        data = [self.files[0][1], self.files[1][1], self.files[2][1]]
-        plt.figure(num=1, figsize=(6, 6))
-        plt.axes(aspect=1)
+        data = [self.files[0][1], self.files[1][1], self.files[2][1]]        
+        plt.subplot(121)
+        plt.xlabel('Files')
+        plt.ylabel('Downloaded time')
+        x = [1, 2, 3]
+        y = [self.files[0][2], self.files[1][2], self.files[2][2]]
+        l = (self.files[0][0], self.files[1][0], self.files[2][0])
+        plt.bar(x, y, align = 'center', color='blue', alpha = 0.4)
+        for w, k in zip([self.files[0][2], self.files[1][2], self.files[2][2]], range(1, 4)):
+            plt.annotate('%ss %sms' % (int(round(w)), str(round(w,3)).split('.')[1]), (k, w), va='bottom', ha='center', fontsize=12)
+        plt.xticks(x, l)
+        plt.title("Download time plot")
+        plt.grid(True)
+       
+        plt.subplot(122)
         plt.title('File size', size=14)
         plt.pie(data, labels=(self.files[0][0], self.files[1][0], self.files[2][0]))
         plt.show()
+        self.files = []
     
     def startDownload(self):
         self.dthread1 = DownloadThread('1', self.ui.lineEdit.text(), self.downloaded)
